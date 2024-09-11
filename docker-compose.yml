@@ -1,0 +1,29 @@
+services:
+  postgres:
+    container_name: postgres-lets-play
+    image: postgres
+    environment:
+      POSTGRES_USER: lets_play
+      POSTGRES_PASSWORD: secret
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: lets_play
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - lets-play-network
+    restart: unless-stopped
+  mail-dev:
+    container_name: maildev-lets-play
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+
+volumes:
+  postgres:
+    driver: local
+networks:
+  lets-play-network:
+    driver: bridge
